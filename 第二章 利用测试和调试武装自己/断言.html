@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>断言的简单实现</title>
+    <style>
+        /*定义结果样式*/
+        li.pass{color: green;}
+        li.fail{color: red;}
+    </style>
+</head>
+<body>
+    <!--显示测试结果-->
+    <ul id="results"></ul>
+
+    <script>
+        // 定义assert方法
+        function assert(value,desc){
+            var li = document.createElement('li');
+            li.className = value ? "pass" : "fail";
+            li.appendChild(document.createTextNode(desc));
+            document.getElementById("results").appendChild(li);
+        }
+        
+        // 使用断言执行测试
+        window.onload = function() {
+            assert(true, "测试running...");
+            assert(false, "失败！");
+        }
+    </script>
+</body>
+</html>

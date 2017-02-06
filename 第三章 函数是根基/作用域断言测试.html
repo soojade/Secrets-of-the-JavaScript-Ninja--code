@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>作用域断言测试</title>
+    <style>
+        li.pass{color: green;}
+        li.fail{color: red;}
+    </style>
+</head>
+<body>
+    <ul id="results"></ul>
+
+    <script>
+        // 定义assert方法
+        function assert(value,desc){
+            var li = document.createElement('li');
+            li.className = value ? "pass" : "fail";
+            li.appendChild(document.createTextNode(desc));
+            document.getElementById("results").appendChild(li);
+        }
+
+        assert(true,"|------BEFORE OUTER ------|")
+        assert(typeof outer == 'function', "outer() is in scope");
+        assert(typeof inner === 'function', "inner() is scope");
+        assert(typeof a === 'number', "a is in scope");
+        assert(typeof b === 'number', "b is in scope");
+        assert(typeof c === 'number', "c is in scope");
+        assert(typeof d === 'number', "d is not in scope");
+        assert(typeof e === 'number', "e is not in scope");
+
+        function outer(){
+            assert(true,"|------ INSIDE OUTER,BEFORE a ------|")
+            assert(typeof outer == 'function', "outer() is in scope");
+            assert(typeof inner === 'function', "inner() is scope");
+            assert(typeof a === 'number', "a is in scope");
+            assert(typeof b === 'number', "b is in scope");
+            assert(typeof c === 'number', "c is in scope");
+            assert(typeof d === 'number', "d is not in scope");
+            assert(typeof e === 'number', "e is not in scope");
+
+            var a = 1;
+
+            assert(true,"|------ INSIDE OUTER,AFTER a ------|")
+            assert(typeof outer == 'function', "outer() is in scope");
+            assert(typeof inner === 'function', "inner() is scope");
+            assert(typeof a === 'number', "a is in scope");
+            assert(typeof b === 'number', "b is in scope");
+            assert(typeof c === 'number', "c is in scope");
+            assert(typeof d === 'number', "d is not in scope");
+            assert(typeof e === 'number', "e is not in scope");
+
+            function inner(){/******/}
+            var b = 2;
+
+            assert(true,"|------ INSIDE OUTER,AFTER inner() AND b ------|")
+            assert(typeof outer == 'function', "outer() is in scope");
+            assert(typeof inner === 'function', "inner() is scope");
+            assert(typeof a === 'number', "a is in scope");
+            assert(typeof b === 'number', "b is in scope");
+            assert(typeof c === 'number', "c is in scope");
+            assert(typeof d === 'number', "d is not in scope");
+            assert(typeof e === 'number', "e is not in scope");
+
+            if(a == 1){
+                assert(true,"|------ INSIDE OUTER,INSIDE if AND INSIDE if ------|")
+                assert(typeof outer == 'function', "outer() is in scope");
+                assert(typeof inner === 'function', "inner() is scope");
+                assert(typeof a === 'number', "a is in scope");
+                assert(typeof b === 'number', "b is in scope");
+                assert(typeof c === 'number', "c is in scope"); // 这里c 被初始化为undefined，所有断言会失败
+                var c = 3;
+                // 不能再let const 声明之前调用 assert 会报错
+                let d=4; // 添加 ES6 的let
+                const e=5; // 添加 ES6 的const
+
+                assert(true,"|------ INSIDE OUTER,INSIDE if AND AFTER let const ------|")
+                assert(typeof outer == 'function', "outer() is in scope");
+                assert(typeof inner === 'function', "inner() is scope");
+                assert(typeof a === 'number', "a is in scope");
+                assert(typeof b === 'number', "b is in scope");
+                assert(typeof c === 'number', "c is in scope");
+                assert(typeof d === 'number', "d is not in scope");
+                assert(typeof e === 'number', "e is not in scope");
+            }
+
+            assert(true,"|------ INSIDE OUTER,OUTSIDE if ------|")
+            assert(typeof outer == 'function', "outer() is in scope");
+            assert(typeof inner === 'function', "inner() is scope");
+            assert(typeof a === 'number', "a is in scope");
+            assert(typeof b === 'number', "b is in scope");
+            assert(typeof c === 'number', "c is in scope");
+            assert(typeof d === 'number', "d is not in scope");
+            assert(typeof e === 'number', "e is not in scope");
+        }
+        outer();
+        assert(true,"|------ INSIDE OUTER,OUTSIDE if ------|")
+        assert(typeof outer == 'function', "outer() is in scope");
+        assert(typeof inner === 'function', "inner() is scope");
+        assert(typeof a === 'number', "a is in scope");
+        assert(typeof b === 'number', "b is in scope");
+        assert(typeof c === 'number', "c is in scope");
+        assert(typeof d === 'number', "d is not in scope");
+        assert(typeof e === 'number', "e is not in scope");
+    </script>
+</body>
+</html>

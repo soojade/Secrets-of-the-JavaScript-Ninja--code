@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>使用apply()和call()指定函数上下文</title>
+    <style>
+        /*定义结果样式*/
+        li.pass{color: green;}
+        li.fail{color: red;}
+    </style>
+</head>
+<body>
+    <!--显示测试结果-->
+    <ul id="results"></ul>
+
+    <script>
+        // 定义assert方法
+        function assert(value,desc){
+            var li = document.createElement('li');
+            li.className = value ? "pass" : "fail";
+            li.appendChild(document.createTextNode(desc));
+            document.getElementById("results").appendChild(li);
+        }
+        
+      function juggle(){
+          var result = 0;
+          for(var n=0; n<arguments.length; n++){
+              result += arguments[n];
+          }
+          this.result = result; // 在上下文保存结果
+      }
+
+          var ninja1 = {};
+          var ninja2 = {};
+          
+          juggle.apply(ninja1,[1,2,3,4]);
+          juggle.call(ninja2,5,6,7,8);
+          
+          assert(ninja1.result === 10, "juggled via apply");
+          assert(ninja2.result === 26, "juggled via call");
+    </script>
+</body>
+</html>

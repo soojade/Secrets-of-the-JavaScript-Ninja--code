@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>函数调用和方法调用的区别</title>
+    <style>
+        /*定义结果样式*/
+        li.pass{color: green;}
+        li.fail{color: red;}
+    </style>
+</head>
+<body>
+    <!--显示测试结果-->
+    <ul id="results"></ul>
+
+    <script>
+        // 定义assert方法
+        function assert(value,desc){
+            var li = document.createElement('li');
+            li.className = value ? "pass" : "fail";
+            li.appendChild(document.createTextNode(desc));
+            document.getElementById("results").appendChild(li);
+        }
+        
+        function creep(){return this;}
+        assert(creep() === window, "Creeping in the window");
+
+        var sneak = creep; // 创建变量引用creep
+        assert(sneak() === window, "Sneaking in the window");
+
+        var ninja1 = {
+            skulk: creep // 创建属性引用creep
+        };
+        assert(ninja1.skulk() === ninja1, "The 1st ninja is skulking");
+
+        var ninja2 = {
+            skulk: creep
+        };
+        assert(ninja2.skulk() === ninja2, "The 2nd ninja is skulking");
+    </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>使用构造器设置通用对象</title>
+    <style>
+        /*定义结果样式*/
+        li.pass{color: green;}
+        li.fail{color: red;}
+    </style>
+</head>
+<body>
+    <!--显示测试结果-->
+    <ul id="results"></ul>
+
+    <script>
+        // 定义assert方法
+        function assert(value,desc){
+            var li = document.createElement('li');
+            li.className = value ? "pass" : "fail";
+            li.appendChild(document.createTextNode(desc));
+            document.getElementById("results").appendChild(li);
+        }
+
+        // 声明一个构造器，在函数上下文对象上创建一个skulk属性。该属性方法又返回了上下文自身
+        function Ninja(){
+            this.skulk = function(){return this;};
+        }
+
+        var ninja1 = new Ninja();
+        var ninja2 = new Ninja();
+
+        assert(ninja1.skulk() === ninja1, "The 1st ninja is skulking");
+        assert(ninja2.skulk() === ninja2, "The 1st ninja is skulking");
+    </script>
+</body>
+</html>

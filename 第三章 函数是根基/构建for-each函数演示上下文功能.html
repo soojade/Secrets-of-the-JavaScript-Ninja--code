@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>构建for-each函数演示函数上下文功能</title>
+    <style>
+        /*定义结果样式*/
+        li.pass{color: green;}
+        li.fail{color: red;}
+    </style>
+</head>
+<body>
+    <!--显示测试结果-->
+    <ul id="results"></ul>
+
+    <script>
+        // 定义assert方法
+        function assert(value,desc){
+            var li = document.createElement('li');
+            li.className = value ? "pass" : "fail";
+            li.appendChild(document.createTextNode(desc));
+            document.getElementById("results").appendChild(li);
+        }
+        
+      function forEach(list,callback){
+          for(var n=0; n<list.length; n++){
+              callback.call(list[n],n);
+          }
+      }
+
+      // 创建测试对象
+      var weapons = ['shuriken','katana','nunchuncks'];
+
+      forEach(weapons,function(index){
+          assert(this == weapons[index], "Got the expected value of " + weapons[index]);
+      });
+    </script>
+</body>
+</html>

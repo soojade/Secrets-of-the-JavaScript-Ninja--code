@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>证明函数声明相关内容</title>
+    <style>
+        li.pass{color: green;}
+        li.fail{color: red;}
+    </style>
+</head>
+<body>
+    <ul id="results"></ul>
+
+    <script>
+        // 定义assert方法
+        function assert(value,desc){
+            var li = document.createElement('li');
+            li.className = value ? "pass" : "fail";
+            li.appendChild(document.createTextNode(desc));
+            document.getElementById("results").appendChild(li);
+        }
+
+        // 声明一个命名函数，该名称在当前作用域有效，并隐式在window上添加一个同名属性
+        function isNimble(){return true;}
+        // 判断window属性是确定的
+        assert(typeof window.isNimble === "function", "isNimble() defined");
+        // 判断函数的 name 属性
+        assert(isNimble.name === "isNimble", "isNimble() has a name");
+
+        // 创建一个匿名函数，并赋值给canFly变量
+        var canFly = function(){return true;};
+        assert(typeof window.canFly === "function", "canFly() defined");
+        assert(canFly.name === "", "canFly() has no name");
+
+        // 创建一个匿名函数并引用到window的一个属性上
+        window.isDeadly = function(){return true;};
+        assert(typeof window.isDeadly === "function", "isDeadly() defined");
+
+        // 在outer函数内定义一个inner函数，测试该inner（）在其定义之前和之后都可以访问到，并且没有创建全局的inner（）
+        function outer(){
+            assert(typeof inner === "function", "inner() in scope before declaration");
+            function inner(){}
+            assert(typeof inner === "function", "inner() in scope after declaration");
+            assert(window.inner === undefined, "inner() not in global scope");
+        }
+
+        // outer（）可以在全局作用域内访问到，而inner（）则不可以
+        outer();
+        assert(window.inner === undefined, "inner() still not in global scope");
+        // 这里声明的函数名无效，真正起到控制作用的是变量名
+        
+        window.wieldsSword = function swingsSword(){return true;};
+        assert(window.wieldsSword.name === 'swingsSword', "wieldsSword's real name is swingsSword");
+    </script>
+</body>
+</html>
