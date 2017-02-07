@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>存储一组独立的函数</title>
+    <style>
+        li.pass{color: green;}
+        li.fail{color: red;text-decoration:line-through; }
+    </style>
+</head>
+<body>
+    <ul id="results"></ul>
+    <script>
+       var store = {
+           nextId: 1,
+           cache: {}, // 创建一个对象作为缓存，存储函数
+           // 向缓存中添加函数，但只有缓存不存在的情况下才能添加成功
+           add: function(fn){
+            if(!fn.id){
+                fn.id = store.nextId++;
+                return !!(store.cache[fn.id] = fn); // !!可以将任意js表达式转化为bool值
+            }
+           }
+       };
+       function ninja(){}
+       assert(store.add(ninja), "Function was safely added.");
+       assert(!store.add(ninja), "But it wwas only added once.");
+
+        // 创建断言函数
+        function assert(value,desc){
+            var li = document.createElement('li');
+            li.className = value ? 'pass' : 'fail';
+            li.appendChild(document.createTextNode(desc));
+            document.getElementById("results").appendChild(li);
+        }
+    </script>
+</body>
+</html>

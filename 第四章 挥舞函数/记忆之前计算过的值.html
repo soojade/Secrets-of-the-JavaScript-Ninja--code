@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>记忆之前计算过的值</title>
+    <style>
+        li.pass{color: green;}
+        li.fail{color: red;text-decoration:line-through; }
+    </style>
+</head>
+<body>
+    <ul id="results"></ul>
+    <script>
+       function isPrime(value){
+           if(!isPrime.answers) isPrime.answers = {}; // 创建缓存
+           // 检查缓存过的值
+           if(isPrime.answers[value] != null){
+               return isPrime.answers[value];
+           }
+           var prime = value != 1;
+           for(var i=2; i<value; i++){
+                if(value % i == 0){
+                    prime = false;
+                    break;
+                }
+           }
+           // 保存计算出的值
+           return isPrime.answers[value] = prime;
+       }
+
+       assert(isPrime(5), "5 is prime!");
+       assert(isPrime.answers[5], "The answer was cached!");
+
+        // 创建断言函数
+        function assert(value,desc){
+            var li = document.createElement('li');
+            li.className = value ? 'pass' : 'fail';
+            li.appendChild(document.createTextNode(desc));
+            document.getElementById("results").appendChild(li);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>验证内联函数的标识</title>
+    <style>
+        li.pass{color: green;}
+        li.fail{color: red;text-decoration:line-through; }
+    </style>
+</head>
+<body>
+    <ul id="results"></ul>
+    <script>
+        // 声明一个命名内联函数，并将其赋值给一个变量
+        var ninja = function myNinja(){
+            // 在内联函数中，验证两个名字是等价的
+            assert(ninja === myNinja, "This function is named two things at once!");
+        };
+        ninja(); // 调用函数执行内部验证
+
+        assert(typeof myNinja === "undefined", "But myNinja isn't defined outside of the function.");
+        
+        // 创建断言函数
+        function assert(value,desc){
+            var li = document.createElement('li');
+            li.className = value ? 'pass' : 'fail';
+            li.appendChild(document.createTextNode(desc));
+            document.getElementById("results").appendChild(li);
+        }
+    </script>
+</body>
+</html>

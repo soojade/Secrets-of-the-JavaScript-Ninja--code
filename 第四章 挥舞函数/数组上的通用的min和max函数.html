@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数组上的通用min和max函数</title>
+    <style>
+        li.pass{color: green;}
+        li.fail{color: red;text-decoration:line-through; }
+    </style>
+</head>
+<body>
+    <ul id="results"></ul>
+
+    <script>
+       function smallest(array){
+           return Math.min.apply(Math,array);
+       }
+
+       function largest(array){
+           return Math.max.apply(Math,array);
+       }
+
+       assert(smallest([0,1,2,3]) == 0, "Located the smallest value.");
+       assert(largest([0,1,2,3]) == 3, "Located the largest value.");
+
+        // 创建断言函数
+        function assert(value,desc){
+            var li = document.createElement('li');
+            li.className = value ? 'pass' : 'fail';
+            li.appendChild(document.createTextNode(desc));
+            document.getElementById("results").appendChild(li);
+        }
+    </script>
+</body>
+</html>

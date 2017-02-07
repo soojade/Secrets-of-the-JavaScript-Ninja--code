@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>使用命名函数发出啾啾声</title>
+    <style>
+        li.pass{color: green;}
+        li.fail{color: red;text-decoration:line-through; }
+    </style>
+</head>
+<body>
+    <ul id="results"></ul>
+    <script>
+        function chirp(n){
+            return n>1 ? chirp(n-1)+"-chirp" : "chirp";
+        }
+
+        assert(chirp(3) === "chirp-chirp-chirp", "Calling the named function comes naturally.");
+
+        // 创建断言函数
+        function assert(value,desc){
+            var li = document.createElement('li');
+            li.className = value ? 'pass' : 'fail';
+            li.appendChild(document.createTextNode(desc));
+            document.getElementById("results").appendChild(li);
+        }
+    </script>
+</body>
+</html>

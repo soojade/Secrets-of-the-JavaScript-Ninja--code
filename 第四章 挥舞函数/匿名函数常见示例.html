@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>匿名函数常见示例</title>
+    <style>
+        li.pass{color: green;}
+        li.fail{color: red;text-decoration:line-through; }
+    </style>
+</head>
+<body>
+    <ul id="results"></ul>
+    <script>
+        // 创建一个匿名函数作为事件处理程序
+        window.onload = function(){assert(true, 'power!');};
+
+        // 创建一个函数作为ninja的方法
+        var ninja = {
+            shout: function(){
+                assert(true, 'Ninja');
+            }
+        };
+        ninja.shout();
+
+        // 将函数作为回调传递给setTimeout
+        setTimeout(function(){assert(true, 'Forever!');},500);
+
+        // 创建断言函数
+        function assert(value,desc){
+            var li = document.createElement('li');
+            li.className = value ? 'pass' : 'fail';
+            li.appendChild(document.createTextNode(desc));
+            document.getElementById("results").appendChild(li);
+        }
+    </script>
+</body>
+</html>

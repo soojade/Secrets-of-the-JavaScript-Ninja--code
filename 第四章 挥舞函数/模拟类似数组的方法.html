@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模拟类似数组的方法</title>
+    <style>
+        li.pass{color: green;}
+        li.fail{color: red;text-decoration:line-through; }
+    </style>
+</head>
+<body>
+    <ul id="results"></ul>
+
+    <input type="text" id="first">
+    <input type="text" id="second">
+    <script>
+       var elems = {
+           length: 0, // 保存元素个数
+           // 添加元素
+           add: function(elem){
+               Array.prototype.push.call(this,elem);
+           },
+           // 根据id查找元素并添加到集合中
+           gather: function(id){
+               this.add(document.getElementById(id));
+           }
+       };
+       elems.gather("first");
+
+       assert(elems.length == 1 && elems[0].nodeType, "Verify that we have an element in our stash");
+
+       elems.gather("second");
+       assert(elems.length == 2 && elems[1].nodeType, "Verify The other insertion");
+
+        // 创建断言函数
+        function assert(value,desc){
+            var li = document.createElement('li');
+            li.className = value ? 'pass' : 'fail';
+            li.appendChild(document.createTextNode(desc));
+            document.getElementById("results").appendChild(li);
+        }
+    </script>
+</body>
+</html>

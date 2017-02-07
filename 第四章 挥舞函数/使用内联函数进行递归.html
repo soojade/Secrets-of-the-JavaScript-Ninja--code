@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>使用内联函数进行递归</title>
+    <style>
+        li.pass{color: green;}
+        li.fail{color: red;text-decoration:line-through; }
+    </style>
+</head>
+<body>
+    <ul id="results"></ul>
+    <script>
+        var ninja = {
+            chirp: function signal(n){ // 内联函数
+                return n>1 ? signal(n-1)+"-chirp" : "chirp";
+            }
+        }
+        assert(ninja.chirp(3) === "chirp-chirp-chirp", "Works as we would expect it to!");
+
+        // 创建新对象
+        var samurai = {chirp: ninja.chirp};
+        // 重新定义ninja对象，去除所有属性
+        ninja = {};
+
+        assert(samurai.chirp(3) === "chirp-chirp-chirp", "The method correctly calls itself.");
+        
+        // 创建断言函数
+        function assert(value,desc){
+            var li = document.createElement('li');
+            li.className = value ? 'pass' : 'fail';
+            li.appendChild(document.createTextNode(desc));
+            document.getElementById("results").appendChild(li);
+        }
+    </script>
+</body>
+</html>
