@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>闭包可以访问到什么内容</title>
+    <style>
+        /*定义结果样式*/
+        li.pass{color: green;}
+        li.fail{color: red;text-decoration: line-through;}
+    </style>
+</head>
+<body>
+    <!--显示测试结果-->
+    <ul id="results"></ul>
+
+    <script>
+        // 定义一个Ninja构造器
+       function Ninja(){
+           // 私有变量，不能直接被外部访问
+            var feints = 0;
+
+            // 创建一个访问feints计数的方法
+            this.getFeints = function(){
+                return feints;
+            };
+
+            this.feint = function(){
+                feints++;
+            };
+       }
+
+       var ninja = new Ninja();
+       ninja.feint();
+
+       assert(ninja.getFeits() == 1, "We're able to access the internal feint count.");
+       assert(ninja.feints === undefined, "And the private data is inaccessible to us")
+
+       // 定义assert方法
+        function assert(value,desc){
+            var li = document.createElement('li');
+            li.className = value ? "pass" : "fail";
+            li.appendChild(document.createTextNode(desc));
+            document.getElementById("results").appendChild(li);
+        }
+    </script>
+</body>
+</html>

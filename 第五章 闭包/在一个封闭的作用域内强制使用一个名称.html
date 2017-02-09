@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>在一个封闭的作用域内强制使用一个名称</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+<body>
+    <img src="./ww.jpg" alt="">
+
+    <script>
+        // 定义$表示其它内容
+        $ = function(){alert('no jquery!');};
+
+        (function($){
+            $('img').on('click',function(event){
+                $(event.target).addClass('clickedOn');
+            })
+        })(jQuery);
+    </script>
+</body>
+</html>
