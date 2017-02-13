@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>通过HTMLElement的原型给所有HTML元素都添加新方法</title>
+</head>
+<body>
+    <div id="parent">
+        <div id="a">I'm going to be removed.</div>
+        <div id="b">Me too!
+        </div>
+    </div>
+    <script>
+        HTMLElement.prototype.remove = function(){
+            if(this.parentNode){
+                this.parentNode.removeChild(this);
+            };
+            var a = document.getElementById('a');
+            // 使用原方法删除节点
+            a.parentNode.removeChild(a);
+            // 使用新方法删除节点
+            document.getElementById('b').remove();
+        }
+    </script>
+</body>
+</html>
